@@ -8,47 +8,28 @@ export class ProjectDisplay extends Component {
     super(props);
     this.state = { project: null, loading: true };
 
-   this.props.match.params.
-    fetch(`api/Projects/${this.props.location.projectId}`)
+    console.log(this);
+    fetch(`api/Projects/${this.props.match.params.projectId}`)
       .then(response => response.json())
       .then(data => {
         this.setState({ project: data, loading: false });
       });
   }
 
-  static renderForecastsTable(forecasts) {
+  static renderProjectInfo(project) {
     return (
-      <table className='table'>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.dateFormatted}>
-              <td>{forecast.dateFormatted}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <h1>{project.name}</h1>
     );
   }
 
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : ProjectDisplay.renderProjectInfo(this.state.project);
 
     return (
       <div>
-        <h1>Weather forecast</h1>
+        <h1>Project</h1>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>

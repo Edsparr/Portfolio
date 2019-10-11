@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Octokit;
+using Portfolio.Website.Settings;
+using Portfolio.Website.TypeConverters;
 
 namespace Portfolio.Website
 {
@@ -29,10 +31,23 @@ namespace Portfolio.Website
                 configuration.RootPath = "ClientApp/build";
             });
 
+            services.AddScoped<IProjectFetcherService, ProjectFetcherService>();
+
             services.AddScoped<IGitHubClient, GitHubClient>((provider) =>
             {
                 return new GitHubClient(new ProductHeaderValue("Felix.Edsparr.Portfolio"));
             });
+            services.AddMemoryCache();
+
+            services.AddSingleton<PortfolioProjectTypeConverter>();
+
+            RegisterSettings();
+
+            void RegisterSettings()
+            {
+                services.Configure<GithubUserSettings>(Configuration.GetSection("Github"));
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
