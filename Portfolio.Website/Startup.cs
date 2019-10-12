@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Octokit;
 using Portfolio.Website.Settings;
 using Portfolio.Website.TypeConverters;
+using System.Net.Http;
 
 namespace Portfolio.Website
 {
@@ -42,6 +43,11 @@ namespace Portfolio.Website
             services.AddSingleton<PortfolioProjectTypeConverter>();
 
             RegisterSettings();
+
+            services.AddScoped<HttpClient>(c =>
+            {
+                return new HttpClient();
+            });
 
             void RegisterSettings()
             {

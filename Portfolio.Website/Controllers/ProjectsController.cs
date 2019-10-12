@@ -11,12 +11,10 @@ namespace Portfolio.Website
     [Route("api/[controller]")]
     public class ProjectsController : Controller
     {
-        private readonly PortfolioProjectTypeConverter converter;
         private readonly IProjectFetcherService fetcherService;
-        public ProjectsController(PortfolioProjectTypeConverter converter, IProjectFetcherService fetcherService)
+        public ProjectsController(IProjectFetcherService fetcherService)
         {
             this.fetcherService = fetcherService;
-            this.converter = converter;
         }
 
         [HttpGet("[action]")]

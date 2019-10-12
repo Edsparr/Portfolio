@@ -7,6 +7,7 @@ using Portfolio.Website.TypeConverters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Portfolio.Website
         Task<PortfolioProject> GetRepositoryAsync(string name);
         Task<IEnumerable<PortfolioProject>> GetRepositoriesAsync();
 
-        Task<Dictionary<string, byte[]>> GetDisplayFilesAsync(string name);
+        Task<Dictionary<string, string>> GetDisplayFilesAsync(string name);
     }
 
     public class ProjectFetcherService : IProjectFetcherService
@@ -26,7 +27,10 @@ namespace Portfolio.Website
         private readonly IGitHubClient client;
         private readonly IOptions<GithubUserSettings> userSettings;
         private readonly PortfolioProjectTypeConverter projectTypeConverter;
-        public ProjectFetcherService(PortfolioProjectTypeConverter projectTypeConverter, IOptions<GithubUserSettings> userSettings, IGitHubClient client, IMemoryCache cache)
+        public ProjectFetcherService(PortfolioProjectTypeConverter projectTypeConverter, 
+            IOptions<GithubUserSettings> userSettings, 
+            IGitHubClient client, 
+            IMemoryCache cache)
         {
             this.projectTypeConverter = projectTypeConverter;
             this.client = client;
@@ -62,9 +66,9 @@ namespace Portfolio.Website
             });
         }
 
-        public async Task<Dictionary<string, byte[]>> GetDisplayFilesAsync(string name)
+        public async Task<Dictionary<string, string>> GetDisplayFilesAsync(string name)
         {
-            Dictionary<string, byte[]> content = new Dictionary<string, byte[]>();
+            Dictionary<string, string> content = new Dictionary<string, string>();
             try
             {
                 content = (await client.Repository.Content.GetAllContents(userSettings.Value.Username, name, "DisplayFiles"))
@@ -74,17 +78,17 @@ namespace Portfolio.Website
                     return key.Name;
                 }, (element) =>
                 {
-
-                    return new byte[0];
+                    return element.DownloadUrl;
                 });
-            }
+
+            }   
             catch (NotFoundException) { }
 
             try
             {
                 var readMe = await client.Repository.Content.GetReadme(userSettings.Value.Username, name);
-
-                content.Add(readMe.Name, Encoding.ASCII.GetBytes(readMe.Content));
+                
+                content.Add(readMe.Name, readMe.HtmlUrl);
             }
             catch (NotFoundException) { }
 

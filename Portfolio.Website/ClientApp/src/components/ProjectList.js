@@ -1,27 +1,21 @@
 ﻿import React, { Component } from 'react';
 
-export class ProjectDisplay extends Component {
-  displayName = ProjectDisplay.name
+export class ProjectList extends Component {
+  displayName = ProjectList.name
 
   
   constructor(props) {
     super(props);
-    this.state = { project: null, loading: true };
+    this.state = { projects: [], loading: true };
   }
-
   componentDidMount() {
-    fetch(`api/Projects/${this.props.match.params.projectId}`)
+    fetch(`api/Projects`)
       .then(response => response.json())
       .then(data => {
-        this.setState({ project: data, loading: false });
+        this.setState({ projects: data, loading: false });
       });
   }
 
-  static renderProjectInfo(project) {
-    return (
-      <h1>{project.name}</h1>
-    );
-  }
 
   render() {
     let contents = this.state.loading

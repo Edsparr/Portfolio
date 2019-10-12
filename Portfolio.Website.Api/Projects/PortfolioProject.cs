@@ -13,6 +13,6 @@ namespace Portfolio.Website.Api
         public int Stars { get; set; }
 
         [JsonProperty("displayFiles")]
-        public Dictionary<string, byte[]> DisplayFiles { get; set; }
+        public Dictionary<string, string> DisplayFiles { get; set; }
     }
 }
