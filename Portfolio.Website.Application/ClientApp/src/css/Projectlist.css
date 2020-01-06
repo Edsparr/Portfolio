@@ -1,0 +1,55 @@
+﻿.grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-items: stretch;
+}
+
+.wrapper {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    margin: 15px;
+}
+
+.img {
+    max-width: 600px;
+    min-width: 100px;
+    height: auto;
+    -webkit-transition: 0.4s ease;
+    transition: 0.4s ease;
+}
+.wrapper:hover .img {
+    opacity: 0.3;
+    -webkit-transform: scale(1.08);
+    transform: scale(1.08);
+}
+
+.wrapper:hover .centeredContent {
+    opacity: 1;
+}
+
+
+.centeredContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    overflow: hidden;
+
+}
+
+
+.projectName {
+    font-size: 40px;
+    color: black;
+}
+
+.projectDescription {
+    font-size: 25px;
+    color: black;
+}

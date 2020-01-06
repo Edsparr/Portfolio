@@ -1,0 +1,9 @@
+﻿body {
+    font-family: sans-serif;
+    background: url('../icons/home/background-1.jpg') center no-repeat;
+}
+.websiteName {
+    font-weight: bolder;
+    color: white;
+    font-size: 40px;
+}

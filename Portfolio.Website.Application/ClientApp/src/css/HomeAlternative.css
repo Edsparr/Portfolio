@@ -1,0 +1,29 @@
+﻿.container {
+    position: relative; 
+    text-align: center;
+    max-width: 100%;
+    height: auto;
+}
+
+.text-light {
+    color: white;
+}
+
+.text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.image {
+    filter: blur(4px);
+    transition: transform .5s ease;
+    max-width: 512px;
+    max-height: 512px;
+}
+
+.image:hover {
+    transform: scale(1.1);
+}
